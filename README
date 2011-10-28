@@ -1,0 +1,54 @@
+What is Yāna?
+
+The goal of the Yāna project is to provide a light-weight, modular,
+open source template within which open access publishers can develop
+their own mobile applications.
+
+About the Project
+
+Yāna will provide a free, open-source template that open access
+journals can use as the basis of their own multi-platform mobile
+applications. The Yāna template will provide the functionality
+required by any journal operating on a mobile platform. These include:
+
+Easy navigation 
+Online viewing of journal content
+Bookmarking of favorite articles (in second Alpha release)
+Information about the journal 
+
+The template will also take advantage of standards-based web
+technologies to allow publishers to deploy their applications to
+multiple platforms (iPhone, Android, Blackberry, etc.). We believe
+that a well-documented and publicly available template will greatly
+reduce the cost to each journal publisher of developing a custom
+mobile application.
+
+Why Yāna?
+
+In the current environment, open access journals have access to mobile
+apps—but at a significant, perhaps even a prohibitive, cost.
+
+Each open access journal publisher must develop its own application or
+pay a third party to develop the app using a proprietary framework.
+
+Yāna will provide a basic template for multi-platform mobile journal
+applications, but with a big difference: the code for Yāna will be
+open source and made available to everyone along with extensive
+documentation about how to customize it. Journal publishers will be
+able to "see under the hood," something prohibited by companies
+seeking to profit from their proprietary templates.
+
+Go Multi-Platform
+
+Yāna will provide a template from which open access journal publishers
+can develop their own applications. With the basic functionality
+already available, OA publishers can focus on customization, greatly
+reducing their development costs.
+
+Because Yāna will be compatible with multiple platforms, there's no
+need to start from scratch to build an application for Apple's iPhone,
+for example, and another for Google's Android.
+
+For more information see:
+
+http://osc.hul.harvard.edu/yana/
