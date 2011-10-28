@@ -1,0 +1,47 @@
+<!DOCTYPE html> 
+<html> 
+  <head>
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <!-- external javascript and css yana depends on -->
+    <script src="jquery-1.6.1.min.js"></script>            
+    <script type="text/javascript" charset="utf-8" src="jquery.mobile-1.0b1/jquery.mobile-1.0b1.js"></script>
+    <link rel="stylesheet" href="jquery.mobile-1.0b1/jquery.mobile-1.0b1.css" />
+    
+    <!-- yana specific javascript and css -->
+    <link rel="stylesheet" href="yana.css" />
+  </head>
+  <body>    
+    
+
+
+    <!-- Home Page. All other pages will be generated dynamically based on settings in conf.js --> 
+    <div data-role="page" id="homePage" data-url="homePage" class="ui-page ui-body-c" style="min-height: 683px; ">
+      <header data-role="header" id="homeHeader" class="ui-bar-a ui-header" role="banner">
+	<h1 class="ui-title" tabindex="0" role="heading" aria-level="1"></h1> 
+      </header><!-- /header -->
+
+      <div data-role="content" id="homeContent" class="ui-content" role="main"> 
+	<ul data-role="listview" data-inset="true" id="homeContentList" class=" ui-listview  ui-listview-inset ui-corner-all ui-shadow "><li data-theme="c" class="ui-btn ui-btn-icon-right ui-li ui-corner-top ui-li-has-icon ui-btn-up-c"><div class="ui-btn-inner ui-li ui-corner-top"><div class="ui-btn-text"><a href="" onclick="return YANA.changePage('current'); " class="ui-link-inherit"><img src="img/icons/book_24.png" alt="Current" class="ui-li-icon ui-li-thumb">Current</a></div><span class="ui-icon ui-icon-arrow-r"></span></div></li><li data-theme="c" class="ui-btn ui-btn-icon-right ui-li ui-li-has-icon ui-btn-up-c"><div class="ui-btn-inner ui-li"><div class="ui-btn-text"><a href="" onclick="return YANA.changePage('archive'); " class="ui-link-inherit"><img src="img/icons/storage_24.png" alt="Archive" class="ui-li-icon ui-li-thumb">Archive</a></div><span class="ui-icon ui-icon-arrow-r"></span></div></li><li data-theme="c" class="ui-btn ui-btn-icon-right ui-li ui-li-has-icon ui-btn-hover-c"><div class="ui-btn-inner ui-li"><div class="ui-btn-text"><a href="" onclick="return YANA.changePage('search'); " class="ui-link-inherit"><img src="img/icons/magnifier_24.png" alt="Search" class="ui-li-icon ui-li-thumb">Search</a></div><span class="ui-icon ui-icon-arrow-r"></span></div></li><li data-theme="c" class="ui-btn ui-btn-icon-right ui-li ui-corner-bottom ui-li-has-icon ui-btn-up-c"><div class="ui-btn-inner ui-li ui-corner-bottom"><div class="ui-btn-text"><a href="" onclick="return YANA.changePage('favorites'); " class="ui-link-inherit"><img src="img/icons/star_24.png" alt="Favorites" class="ui-li-icon ui-li-thumb">Favorites</a></div><span class="ui-icon ui-icon-arrow-r"></span></div></li></ul>
+	<ul data-role="listview" data-inset="true" id="homeMetaList" class=" ui-listview  ui-listview-inset ui-corner-all ui-shadow "><li data-theme="c" class="ui-btn ui-btn-up-c ui-btn-icon-right ui-li ui-corner-top ui-li-has-icon"><div class="ui-btn-inner ui-li ui-corner-top"><div class="ui-btn-text"><a href="" onclick="return YANA.changePage('about'); " class="ui-link-inherit"><img src="img/icons/info_24.png" alt="About" class="ui-li-icon ui-li-thumb">About</a></div><span class="ui-icon ui-icon-arrow-r"></span></div></li><li data-theme="c" class="ui-btn ui-btn-up-c ui-btn-icon-right ui-li ui-li-has-icon"><div class="ui-btn-inner ui-li"><div class="ui-btn-text"><a href="" onclick="return YANA.changePage('announcements'); " class="ui-link-inherit"><img src="img/icons/speaker_24.png" alt="Announcements" class="ui-li-icon ui-li-thumb">Announcements</a></div><span class="ui-icon ui-icon-arrow-r"></span></div></li><li data-theme="c" class="ui-btn ui-btn-up-c ui-btn-icon-right ui-li ui-li-has-icon"><div class="ui-btn-inner ui-li"><div class="ui-btn-text"><a href="" onclick="return YANA.changePage('forAuthors'); " class="ui-link-inherit"><img src="img/icons/pencil_24.png" alt="For Authors" class="ui-li-icon ui-li-thumb">For Authors</a></div><span class="ui-icon ui-icon-arrow-r"></span></div></li><li data-theme="c" class="ui-btn ui-btn-up-c ui-btn-icon-right ui-li ui-corner-bottom ui-li-has-icon"><div class="ui-btn-inner ui-li ui-corner-bottom"><div class="ui-btn-text"><a href="" onclick="return YANA.changePage('links'); " class="ui-link-inherit"><img src="img/icons/link_24.png" alt="Links" class="ui-li-icon ui-li-thumb">Links</a></div><span class="ui-icon ui-icon-arrow-r"></span></div></li></ul> 
+      </div><!-- end content --> 
+    </div><!-- end page --> 
+
+
+  
+
+<section data-role="page" id="currentPage"><header data-role="header" id="currentHeader"><h1>Current</h1></header><section data-role="content" id="currentContent">What the hell is going on.<ul data-role="listview" data-inset="true" id="currentList"><li><a rel="external" href="http://pdrjournal.org/09102011-1616/pdr-gets-new-look"><h3>PDR Gets A New Look</h3><p>Yada yada yada</p></a></li><li><a rel="external" href="http://pdrjournal.org/09092011-1631/resa-blatman"><h3>Resa Blatman</h3><p>Yada yada yada</p></a></li><li><a rel="external" href="http://pdrjournal.org/09092011-1245/our-thanks"><h3>Our Thanks</h3><p>Yada yada yada</p></a></li><li><a rel="external" href="http://pdrjournal.org/node/53"><h3>Genre Bender</h3><p>Yada yada yada</p></a></li><li><a rel="external" href="http://pdrjournal.org/08222011-2315/art-science"><h3>Art &amp; Science</h3><p>Yada yada yada</p></a></li><li><a rel="external" href="http://pdrjournal.org/node/51"><h3>Art Wants To Be Free</h3><p>Yada yada yada</p></a></li><li><a rel="external" href="http://pdrjournal.org/08192011-1237/amethyst-arsenic"><h3>Amethyst Arsenic</h3><p>Yada yada yada</p></a></li><li><a rel="external" href="http://pdrjournal.org/08112011-2219/what-if-emily-dickinson-was-sex-fiend"><h3>What If Emily Dickinson Was a Sex-Fiend?</h3><p>Yada yada yada</p></a></li><li><a rel="external" href="http://pdrjournal.org/teresa_dunn"><h3>Fall Cover Artist</h3><p>Yada yada yada</p></a></li><li><a rel="external" href="http://pdrjournal.org/08022011-1554/alizas-brain-trust"><h3>Aliza's Brain Trust</h3><p>Yada yada yada</p></a></li></ul></section></section><section data-role="page" id="archivePage"><header data-role="header" id="archiveHeader"><h1>Archive</h1></header><section data-role="content" id="archiveContent">What the hell is going on.<ul data-role="listview" data-inset="true" id="archiveList"><li>Ha.</li></ul></section></section><section data-role="page" id="searchPage"><header data-role="header" id="searchHeader"><h1>Search</h1></header><section data-role="content" id="searchContent">What the hell is going on.<ul data-role="listview" data-inset="true" id="searchList"><li>Ha.</li></ul></section></section><section data-role="page" id="favoritesPage"><header data-role="header" id="favoritesHeader"><h1>Favorites</h1></header><section data-role="content" id="favoritesContent">What the hell is going on.<ul data-role="listview" data-inset="true" id="favoritesList"><li>Ha.</li></ul></section></section><section data-role="page" id="aboutPage"><header data-role="header" id="aboutHeader"><h1>About</h1></header><section data-role="content" id="aboutContent">What the hell is going on.<ul data-role="listview" data-inset="true" id="aboutList"><li>Ha.</li></ul></section></section><section data-role="page" id="announcementsPage"><header data-role="header" id="announcementsHeader"><h1>Announcements</h1></header><section data-role="content" id="announcementsContent">What the hell is going on.<ul data-role="listview" data-inset="true" id="announcementsList"><li>Ha.</li></ul></section></section><section data-role="page" id="forAuthorsPage"><header data-role="header" id="forAuthorsHeader"><h1>For Authors</h1></header><section data-role="content" id="forAuthorsContent">What the hell is going on.<ul data-role="listview" data-inset="true" id="forAuthorsList"><li>Ha.</li></ul></section></section><section data-role="page" id="linksPage"><header data-role="header" id="linksHeader"><h1>Links</h1></header><section data-role="content" id="linksContent">What the hell is going on.<ul data-role="listview" data-inset="true" id="linksList"><li>Ha.</li></ul></section></section><div class="ui-loader ui-body-a ui-corner-all" style="top: 341.5px; "><span class="ui-icon ui-icon-loading spin"></span><h1>loading</h1></div><div data-role="page" id="homePage" data-url="current" class="ui-page ui-body-c ui-page-active" style="min-height: 683px; ">
+      <header data-role="header" id="homeHeader" class="ui-bar-a ui-header" role="banner">
+	<h1 class="ui-title" tabindex="0" role="heading" aria-level="1"></h1> 
+      </header><!-- /header -->
+
+      <div data-role="content" id="homeContent" class="ui-content" role="main"> 
+	<ul data-role="listview" data-inset="true" id="homeContentList" class=" ui-listview  ui-listview-inset ui-corner-all ui-shadow "></ul>
+	<ul data-role="listview" data-inset="true" id="homeMetaList" class=" ui-listview  ui-listview-inset ui-corner-all ui-shadow "></ul> 
+      </div><!-- end content --> 
+    </div>
+
+
+  </body>
+</html>

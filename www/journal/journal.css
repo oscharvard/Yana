@@ -1,0 +1,15 @@
+/* Style customization for your specific journal (colors, background, etc.)goes in this file. Icons can be changed by modifying journal.js. */
+
+/*See below a couple of examples of changes to Yana's base CSS.*/
+
+/*To change the background pattern for your application, uncomment the code below (i.e., delete the opening "slash asterisk" and closing "asterisk slash") and change the "background-image" property.*/
+
+.ui-body-c, .ui-body-c select, .ui-body-c textarea, .ui-body-c button {
+	/*background-image: url(img/somefilename.png);*/
+}
+
+/*To change the color/gradient of the title bar, uncomment the code below and change the "background" property.*/
+
+.ui-bar-a {	
+	/*background: blue;*/
+}

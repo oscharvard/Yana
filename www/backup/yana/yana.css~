@@ -1,0 +1,129 @@
+body {
+	margin: 0;
+	padding: 0;
+	font: 14px/16px Helvetica;
+}
+
+Top (Title) Bar Gradient
+.ui-bar-a {
+	background: -moz-linear-gradient(center top , #3C3C3C, #111111) repeat scroll 0 0 #111111;\
+}
+
+#jtitle {
+	background: repeat;
+	line-height: 33px;
+	margin-top: -18px;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#ccc), to(#999))
+	/*background-image: -webkit-gradient(linear, left top, left bottom, from(#eac384), to(#EF9F20));*/
+}
+
+#jtitle h1 {
+	padding: 7px 0 7px 0;
+	border-bottom: 1px solid #666;
+	text-align: center;
+	color: #222;
+	text-shadow: 0 1px 0 #FFF;
+}
+
+
+ul#homeContentList, ul#homeMetaList  {
+	margin: 1em 15px;
+}
+
+
+
+.ui-body-c, .ui-body-c input, .ui-body-c select, .ui-body-c textarea, .ui-body-c button {
+	background-image: url(img/brushed_alu_dark.png);
+}
+
+/* Icon positioning (48X48) in navigation */
+ul#homeContentList li img {
+	 top: 10px;
+}
+
+ul#homeContentList  li.ui-btn-up-c, ul#homeMetaList  li.ui-btn-up-c {
+	background: #fff;
+	text-shadow: 0 1px 1px #F6F6F6;
+}
+
+/*.ui-li .ui-btn-inner /*a.ui-link-inherit*!/, .ui-li-static.ui-li {
+	background: #fff;
+}*/
+
+.ui-li-has-icon .ui-btn-inner a.ui-link-inherit, .ui-li-static.ui-li-has-icon {
+	padding-left:60px; 
+}
+
+ul#homeContentList li a, ul#homeMetaList li a {
+	padding: 20px 0px 20px 70px;
+}
+
+/*ul#nav li {
+	padding: 12px 0px 12px 5px;
+}*/
+
+/*ul#nav .ui-btn-text {
+	background: #fff;
+}*/
+
+ul#nav li.ui-btn-up-c {
+	background: #fff;
+	text-shadow: 0 1px 1px #F6F6F6;
+}
+
+ul#nav li.ui-btn-hover-c {
+	background: rgba(255,255,255,.8);
+} 
+
+ul#nav li a {
+	font: bold 11pt Helvetica;
+	color: #444;
+	text-decoration: none;
+}
+
+#current .ui-li-thumb {
+	max-height: 70px;
+	max-width: 70px;
+	padding: 5px;
+}
+
+label.ui-input-text  {
+ padding-right: 25px;
+}
+
+
+/*New*/
+
+.ui-li, .ui-li.ui-field-contain {
+	min-height: 50px;
+}
+
+.ui-body-c .ui-link {
+	text-decoration: none;
+	color: #222;
+	font-weight: normal;
+}
+
+ul#nav li a {
+	padding: 20px 0px 20px 70px;
+}
+
+/*Padding of content area (menus, etc.)*/
+.ui-content {
+	padding: 5px;
+}
+
+/*White background, rounded corners for article text*/
+#articleContent, #htmlContent.ui-content {
+	background: #FFF;
+	margin: 8px;
+	padding: 10px 15px 20px 25px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+}
+/* Images in articles should be floated left */
+#articleContent img {
+	float:left;
+	 margin-right: 5px;
+}
+

@@ -1,0 +1,38 @@
+<html>
+<head><title>YQL RSS Test</title>
+  <script src="jquery-1.6.1.min.js"></script>            
+</head>
+
+<body>
+<script>
+var maxEntries = 5; // if 0 then there will be no limit
+ 
+function slug(str){
+ return str.replace(/\s/g,'-').replace(/[^a-zA-Z0-9\-]/g,'').toLowerCase();
+}
+/**
+ * This function appends rss feed items to divs with the same slug
+ * Name is the title of the feed, when slugged i use it as a div id
+ * File is the rss feed
+ */
+
+
+
+
+$(document).ready(function() {
+  //newFeed("gaga","http://dash.harvard.edu/open-search/?query=author_authority:c9e989d522c00c122594ca888fb74c44&sort_by=2&order=desc&rpp=5&format=rss");
+  //newFeed("gaga","http://ehp03.niehs.nih.gov/article/feed");
+//newFeed("gaga", "http://www.ehjournal.net/latest/rss");
+  newFeed("gaga","http://pdrjournal.org/blog.xml");
+});
+  
+</script>
+
+<p>FHello, Reinhard. This is a test of using YQL to perform cross domain RSS retrieval.</p>
+
+<div id="gaga"></div>
+
+
+
+</body>
+</html>

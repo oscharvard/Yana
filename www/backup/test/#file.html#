@@ -1,0 +1,9 @@
+<html>
+<head>
+<title>requestFileSystem test</title>
+</head>
+
+<body>
+var db = window.openDatabase("test", "1.0", "Test DB", 1000000);
+</body>
+</html>

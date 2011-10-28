@@ -1,0 +1,66 @@
+/*Much of the default CSS that styles Yana is provided by the JQuery Mobile library. This file provides CSS code that supplements (and in some cases replaces) JQuery Mobile's CSS settings).*/
+
+/*<---------------------General--------------------->*/
+/* Basic fonts and positioning*/
+body {
+	margin: 0;
+	padding: 0;
+	font: 14px/16px Helvetica;
+}
+
+/*Background image for application*/
+.ui-body-c, .ui-body-c select, .ui-body-c textarea, .ui-body-c button {
+	background-image: url(img/brushed_alu_dark.png);
+}
+
+/*Padding of content area (menus, etc.)*/
+.ui-content {
+	padding: 5px;
+}
+
+/* Prevents image rounding from inheriting border-radius property; Positions image thumbs (all non-home-icon imgs) */
+.ui-mobile a img {
+	border-radius: 0px;
+}
+
+/* Positions and limits the size of images associated with non-home menus (e.g., a list of previous issues with images of the covers) */
+.ui-li-thumb, .ui-li-icon {
+	max-height: 70px;
+	max-width: 70px;
+	padding: 5px;	
+}
+
+/*<---------------------Navigation------------------->*/
+
+/*Applies spacing to the right and left of the home menu*/
+ul#homeSection1List, ul#homeSection2List  {
+	margin: 1em 15px;
+}
+
+/* Icon positioning and sizing for the home menu */
+ul#homeSection1List li img, ul#homeSection2List li img {
+	 top: 11px;
+	 max-height: 40px;
+	 max-width: 40px;
+	 padding: 0px;
+	}
+
+ul#homeSection1List li a, ul#homeSection2List li a {
+	padding: 20px 0px 20px 70px;
+}
+
+/*<---------------------Internal Pages------------------->*/
+
+/*White background, rounded corners for html content (e.g., article text)*/
+#articleContent, .htmlContent.ui-content, .opensearchContent {
+	background: #FFF;
+	margin: 8px;
+	padding: 10px 15px 20px 25px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+}
+/* Images in html content are floated left, allowing text to wrap around them. */
+#articleContent img {
+	float:left;
+	margin-right: 5px;
+}

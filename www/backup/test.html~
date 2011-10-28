@@ -1,0 +1,38 @@
+<!DOCTYPE html> 
+<html> 
+  <head>
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <!-- external javascript and css yana depends on -->
+    <script src="jquery-1.6.1.min.js"></script>            
+
+
+    <!-- yana specific javascript and css -->
+    <script src="conf.js"></script> 
+    <script src="yana-dev.js"></script> 
+    
+
+    <script type="text/javascript" charset="utf-8" src="jquery.mobile-1.0b1/jquery.mobile-1.0b1.js"></script>
+    <link rel="stylesheet" href="jquery.mobile-1.0b1/jquery.mobile-1.0b1.css" />
+
+
+
+    <link rel="stylesheet" href="yana.css" />
+  </head>
+  <body>
+
+    <!-- Home Page. All other pages will be generated dynamically based on settings in conf.js --> 
+    <div data-role="page" id="homePage">
+      <header data-role="header" id="homeHeader">
+	<h1></h1> 
+      </header><!-- /header -->
+      <div data-role="content" id="homeContent"> 
+	<ul data-role="listview" data-inset="true" id="homeContentList"></ul>
+	<ul data-role="listview" data-inset="true" id="homeMetaList"></ul> 
+      </div><!-- end content --> 
+    </div><!-- end page --> 
+
+
+  </body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html> 
+<html> 
+  <head>
+    <!-- 
+     This is a generic yana html file: you should not have to modify this file.
+     All your modifications should be made in journal.js and journal.css
+     -->
+    <title></title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <!-- external javascript and css yana depends on -->
+    <script src="../yana/jquery-1.6.1.min.js"></script>            
+
+    <!-- yana specific javascript and css -->
+    <script src="journal.js"></script> 
+    <script src="../yana/yana.js"></script> 
+    <script src="../yana/jquery.mobile-1.0rc2/jquery.mobile-1.0rc2.min.js"></script>
+    <link rel="stylesheet" href="../yana/jquery.mobile-1.0rc2/jquery.mobile-1.0rc2.min.css" />
+    <link rel="stylesheet" href="../yana/yana.css" />
+    <link rel="stylesheet" href="journal.css" />
+
+  </head>
+  <body>
+
+    <!-- Home Page and article page. All other pages are generated dynamically based on settings in conf.js --> 
+    <div data-role="page" id="homePage">
+      <header data-role="header" id="homeHeader">
+	<h1>Journal Home</h1> 
+      </header><!-- /header -->
+      <div data-role="content" id="homeContent"> 
+	<ul data-role="listview" data-inset="true" id="homeSection1List"></ul>
+	<ul data-role="listview" data-inset="true" id="homeSection2List"></ul> 
+      </div><!-- end content --> 
+    </div><!-- end page --> 
+
+    <div data-role="page" id="articlePage">
+      <header data-role="header" id="articleHeader">
+	<h1>Article</h1> 
+	<a id="articleSectionLink" href="#homePage" data-icon="back" data-iconpos="right" data-direction="forward" class="ui-btn-left">Section</a>
+	<a href="#homePage" data-icon="home" data-iconpos="left" data-direction="reverse" class="ui-btn-right">Home</a>
+      </header><!-- /header -->
+      <div data-role="content" id="articleContent"> 
+      </div><!-- end content --> 
+    </div><!-- end page --> 
+
+  </body>
+</html>

@@ -1,0 +1,6 @@
+
+$(document).ready(function() {                 
+                  $("input[@name='selectsradio']").change(function(){
+                                                  alet("hi");
+                                                  });
+                  });

@@ -1,0 +1,91 @@
+<!DOCTYPE html> 
+<html> 
+  <head>
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <!-- external javascript and css yana depends on -->
+    <script src="jquery-1.6.1.min.js"></script>            
+
+
+    <!-- yana specific javascript and css -->
+    <script src="conf.js"></script> 
+
+    <script type="text/javascript" charset="utf-8" src="jquery.mobile-1.0b1/jquery.mobile-1.0b1.js"></script>
+    <link rel="stylesheet" href="jquery.mobile-1.0b1/jquery.mobile-1.0b1.css" />
+
+
+
+    <link rel="stylesheet" href="yana.css" />
+  </head>
+  <body>
+
+    <script>
+      //$('#homePage').live('pagecreate',function(event){
+      $(document).ready(function(){
+
+      //alert("fruit!");
+      $('#homeContent').append("<p>Junk Me</p>");
+      var s = { id: 'fruit', label: 'Fruit'};
+      $('body').append(YANA.buildPageHtml(s));
+      //$.mobile.pageContainer.append( YANA.buildPageHtml(s));
+      //$('#homePage').page();
+      });
+      function gotoPage(id){
+      $.mobile.changePage("#" + id + "Page");
+      }
+
+YANA.buildPageHtml = function (section){
+    var html = '<div data-role="page" id="' + section.id + 'Page">';
+    html += '<header data-role="header" id="' + section.id + 'Header"><h1>' + section.label + '</h1></header>';
+    html += '<div data-role="content" id="' + section.id + 'Content"><p>' + section.label + '</p>';
+    html += '</div></div>';
+      alert(html);
+    return html;
+};
+
+    </script>
+
+    <!-- Home Page. All other pages will be generated dynamically based on settings in conf.js --> 
+    <div data-role="page" id="homePage">
+      <header data-role="header" id="homeHeader">
+	<h1></h1> 
+      </header><!-- /header -->
+      <div data-role="content" id="homeContent"> 
+	<p>This is just regular before.</p>
+	<ul data-role="listview" data-inset="true" id="homeContentList">
+	  <li><a href="" onclick="return gotoPage('current');">Current</a></li>
+	  <li><a href="" onclick="return gotoPage('archive');">Archive</a></li>
+	  <li><a href="" onclick="return gotoPage('fruit');">Fruit</a></li>
+	</ul>
+	<ul data-role="listview" data-inset="true" id="homeMetaList"></ul> 
+	<p>This is just regular after.</p>
+      </div><!-- end content --> 
+    </div><!-- end page --> 
+
+    <!-- Current Page. All other pages will be generated dynamically based on settings in conf.js --> 
+    <div data-role="page" id="currentPage">
+      <header data-role="header" id="currentHeader">
+	<h1></h1> 
+      </header><!-- /header -->
+      <div data-role="content" id="currentContent"> 
+	<ul data-role="listview" data-inset="true" id="currentList"><li>C Article 1</li><li>C Article 2</li></ul>
+      </div><!-- end content --> 
+    </div><!-- end page --> 
+
+
+    <!-- Archive Page. All other pages will be generated dynamically based on settings in conf.js --> 
+    <div data-role="page" id="archivePage">
+      <header data-role="header" id="archiveHeader">
+	<h1></h1> 
+      </header><!-- /header -->
+      <div data-role="content" id="archiveContent"> 
+	<ul data-role="listview" data-inset="true" id="archiveList"><li>A Article 1</li><li>A Article 2</li></ul>
+      </div><!-- end content --> 
+    </div><!-- end page --> 
+
+<!--
+<div data-role="page" id="fruitPage"><header data-role="header" id="fruitHeader"><h1>Fruit</h1></header><div data-role="content" id="fruitContent"><p>Fruit</p></div></div>
+-->
+  </body>
+</html>

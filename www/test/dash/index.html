@@ -1,0 +1,49 @@
+<!DOCTYPE html> 
+<html> 
+  <head>
+
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <!-- first load jquery javascript -->
+    <script src="jquery-1.6.1.min.js"></script>            
+
+    <!-- yana configuration -->
+    <script src="demo/dash/yanasite.js"></script> 
+
+    <!-- jquery mobile javascript and css -->
+    <script type="text/javascript" charset="utf-8" src="jquery.mobile-1.0b3/jquery.mobile-1.0b3.js"></script>
+    <link rel="stylesheet" href="jquery.mobile-1.0b3/jquery.mobile-1.0b3.css" />
+
+    <!-- yana javascript and css -->
+    <script src="../../yana.js"></script> 
+    <link rel="stylesheet" href="yana.css" />
+    <link rel="stylesheet" href="demo/dash/yanasite.css" />
+
+  </head>
+  <body>
+
+    <!-- Home Page and article page. All other pages are generated dynamically based on settings in conf.js --> 
+    <div data-role="page" id="homePage">
+      <header data-role="header" id="homeHeader">
+	<h1>Journal Home</h1> 
+      </header><!-- /header -->
+      <div data-role="content" id="homeContent"> 
+	<ul data-role="listview" data-inset="true" id="homeContentList"></ul>
+	<ul data-role="listview" data-inset="true" id="homeMetaList"></ul> 
+      </div><!-- end content --> 
+    </div><!-- end page --> 
+
+    <div data-role="page" id="articlePage">
+      <header data-role="header" id="articleHeader">
+	<h1>Article</h1> 
+	<a id="articleSectionLink" href="#homePage" data-icon="back" data-iconpos="right" data-direction="forward" class="ui-btn-left">Section</a>
+	<a href="#homePage" data-icon="home" data-iconpos="left" data-direction="reverse" class="ui-btn-right">Home</a>
+      </header><!-- /header -->
+      <div data-role="content" id="articleContent"> 
+Hello Reinhard. This is the article.
+      </div><!-- end content --> 
+    </div><!-- end page --> 
+
+  </body>
+</html>
