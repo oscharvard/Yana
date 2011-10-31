@@ -235,16 +235,21 @@ YANA.insertFavorites = function (section) {
 YANA.insertOpenSearch = function (section) {
     // insert opensearch search from into given section.
     var contentId = section.id + "Content";
+    var qvid = section.id+'QueryValue';
     var html = "";
-    html += "<form>";
-    html += '<input id="' + section.id + 'QueryValue" type="text" placeholder="Your search term here." />';
-    html += '<input type="button" value="search" onclick="YANA.runOpenSearch(\'' + section.id + '\')" />';
+    html += '<form id="f" onsubmit="alert(\'wtf\'); YANA.runOpenSearch(\'' + section.id + '\')" />';
+    //html += '<div data-role="fieldcontain">';
+    html += '<input type="text" name="'+qvid+'" id="'+qvid+'" value=""  placeholder="Enter search terms here" />'
+    // html += '</div>';
+    html += '<input type="button" value="search"  onclick="alert(\'wtf\'); YANA.runOpenSearch(\'' + section.id + '\')"/>';
     html += "</form>";
     var listId = section.id + "List";
     html += '<ul data-role="listview" data-inset="true" id="' + listId + '"><li></li></ul>';
     //http://dash.harvard.edu/open-search/?query=reinhard&sort_by=2&order=desc&rpp=5&format=rss
     $("#" + contentId).html(html);
     $('#' + listId).hide();
+    $('#' + qvid).focus(true);
+    //alert("hell yes: " +  $('#' + qvid).attr("placeholder"));
 };
 
 YANA.runOpenSearch = function (sectionId) {
@@ -337,6 +342,10 @@ YANA.insertRemoteRss = function (section, rssUrl, level, listId) {
         section.data = data;
         section.articles = [];
         try {
+	    if ( ! ( data.query.results.rss.channel.item || data.query.results.entry ) ) {
+	    	$(listId).append("No matching articles.");
+	    	return;
+	    }
             $.each(data.query.results.rss.channel.item || data.query.results.entry, function () {
                 //if set up to be infinite or the limit is not reached, keep grabbing items
                 if (maxEntries == 0 || maxEntries > count) {
@@ -416,8 +425,8 @@ YANA.insertRemoteRss = function (section, rssUrl, level, listId) {
                 }
             });
         } catch (e) {
-            $(listId).append("<li><a href=\"" + rssUrl + "\">Error getting rss url " + rssUrl + "</a></li>");
-            alert("Error Message: " + e);
+            $(listId).append("<li>Error getting rss url: <a href=\"" + rssUrl + "\"> " + rssUrl + "</a><pre>" + e + "</pre></li>");
+            //alert("Error Message: " + e);
             return;
         }
         
