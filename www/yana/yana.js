@@ -207,6 +207,9 @@ YANA.refreshListView = function (listId) {
 };
 
 YANA.rssTruncate = function (text, length, ellipsis) {
+    if ( ! text  ) {
+	return "";
+    }
     // annoying that this is neccesary. Not sure it really is. Somewhat buggy. Revisit.
     // Set length and ellipsis to defaults if not defined
     if (typeof length == 'undefined') var length = 100;
@@ -344,6 +347,9 @@ YANA.insertRemoteRss = function (section, rssUrl, level, listId) {
                         link = link[0];
                     }
                     var description = this.description;
+		    if ( ! description ) {
+			description = "";
+		    }
                     var articleHtml = description;
                     var enclosures = [];
                     if (description instanceof Array) {
@@ -371,8 +377,8 @@ YANA.insertRemoteRss = function (section, rssUrl, level, listId) {
                     }
                     var reducedDescription = YANA.rssTruncate(description, truncationLength);
                     if (!reducedDescription) {
-                        alert("Problem getting description: '" + description + "'");
-                        reducedDescription = "Unable to get description for some reason (Reinhard will fix).";
+			//alert("Problem getting description: '" + description + "'"  + JSON.stringify(this,null,2));
+                        reducedDescription = "";//Unable to get description for some reason (Reinhard will fix).";
                     }
                     //var pubDate = this.pubDate;
                     //alert(JSON.stringify(this,null,2));
