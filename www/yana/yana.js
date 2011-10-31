@@ -153,13 +153,12 @@ YANA.showArticle = function (sectionId, articleIndex, level) {
         var label = "PDF";
 	buttonCount++;
 	buttonId = 'articleLinkButton' + buttonCount;
-	YANA.clearButton(buttonId);
-	moreHtml += '<a id="' + buttonId + '" data-inline="true" rel="external" href="' + e.url + '">' + label + '</a> ';
+	moreHtml += YANA.addArticleLinkButton(buttonId,e.url,label)
     }
     buttonCount++;
     buttonId = 'articleLinkButton' + buttonCount;
     YANA.clearButton(buttonId);
-    moreHtml += '<a id="' + buttonId + '" data-inline="true" rel="external" href="' + article.link + '">' + "Web" + '</a></span> ';
+    moreHtml += YANA.addArticleLinkButton(buttonId,article.link,"Web");
     var titleHtml = "<h3>" + article.title + "</h3>";
     $('#articleContent').html(titleHtml + article.html + moreHtml);
     var absolutizeUrls = function (index, attr) {
@@ -171,9 +170,12 @@ YANA.showArticle = function (sectionId, articleIndex, level) {
     };
     $("#articleContent img").attr("src", absolutizeUrls);
     $("#articleContent a").attr("href", absolutizeUrls);
-    for ( i=1; i <= buttonCount; i++ ) {
-    	//YANA.refreshButton("#articleLinkButton"+i);
-    }
+    $("#articleContent").trigger("create");
+};
+
+YANA.addArticleLinkButton = function(buttonId,url,label) {
+    YANA.clearButton(buttonId);
+    return '<a id="' + buttonId + '" data-role="button" data-inline="true" rel="external" href="' + url + '">' + label + '</a> ';
 };
 
 YANA.clearButton = function(buttonId){
@@ -183,18 +185,6 @@ YANA.clearButton = function(buttonId){
     } catch (e) {
 	alert("ERror removeing button: " + buttonId);
     }
-};
-
-YANA.refreshButton = function(buttonId) {
-    //alert("Attempting to refresh button: " + buttonId);
-    // deep magic that is sometimes necessary for jquery mobile buttons to display properly.
-    // problem: the links stop actually working. ARGH!
-    try {
-        $(buttonId).button('refresh');
-    } catch (e) {
-        $(buttonId).button();
-    }
-    $(buttonId).button('enable');
 };
 
 YANA.refreshListView = function (listId) {
@@ -239,7 +229,7 @@ YANA.insertOpenSearch = function (section) {
     var html = "";
     html += '<form id="f" onsubmit="alert(\'wtf\'); YANA.runOpenSearch(\'' + section.id + '\')" />';
     //html += '<div data-role="fieldcontain">';
-    html += '<input type="text" name="'+qvid+'" id="'+qvid+'" value=""  placeholder="Enter search terms here" />'
+    html += '<input results="10" type="search" name="'+qvid+'" id="'+qvid+'" value=""  placeholder="Enter search terms here" />'
     // html += '</div>';
     html += '<input type="button" value="search"  onclick="alert(\'wtf\'); YANA.runOpenSearch(\'' + section.id + '\')"/>';
     html += "</form>";
@@ -249,6 +239,7 @@ YANA.insertOpenSearch = function (section) {
     $("#" + contentId).html(html);
     $('#' + listId).hide();
     $('#' + qvid).focus(true);
+    $("#" + contentId).trigger( "create" );
     //alert("hell yes: " +  $('#' + qvid).attr("placeholder"));
 };
 
