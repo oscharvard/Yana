@@ -160,6 +160,9 @@ YANA.showArticle = function (sectionId, articleIndex, level) {
     YANA.clearButton(buttonId);
     moreHtml += YANA.addArticleLinkButton(buttonId,article.link,"Web");
     var titleHtml = "<h3>" + article.title + "</h3>";
+
+    moreHtml += YANA.addFavoritesButton();
+
     $('#articleContent').html(titleHtml + article.html + moreHtml);
     var absolutizeUrls = function (index, attr) {
 	if ( $.mobile.path.isAbsoluteUrl(attr) ) {
@@ -168,9 +171,24 @@ YANA.showArticle = function (sectionId, articleIndex, level) {
 	    return $.mobile.path.makeUrlAbsolute(attr,section.url);
 	}
     };
+
     $("#articleContent img").attr("src", absolutizeUrls);
     $("#articleContent a").attr("href", absolutizeUrls);
     $("#articleContent").trigger("create");
+};
+
+YANA.addFavoritesButton = function(){
+    var buttonId = "addToFavoritesButton";
+    var label = "Favorite";
+    YANA.clearButton(buttonId);
+    return '<input onclick="YANA.addToFavorites()" type="button" id="' + buttonId + '" data-role="button" data-inline="true" rel="external" value="' + label + '"/> ';
+};
+
+YANA.addToFavorites = function(){
+    //alert("Adding to favorites");
+    var favorites = [ "Rock and roll dude!" ];
+    amplify.store("YANA.favorites",favorites);
+    //alert("Got this in favorites: " + JSON.stringify(amplify.store("YANA.favorites"),null,2));
 };
 
 YANA.addArticleLinkButton = function(buttonId,url,label) {
@@ -183,7 +201,7 @@ YANA.clearButton = function(buttonId){
     try {
         $(buttonId).remove();
     } catch (e) {
-	alert("ERror removeing button: " + buttonId);
+	alert("Error removeing button: " + buttonId);
     }
 };
 
@@ -218,7 +236,8 @@ YANA.rssTruncate = function (text, length, ellipsis) {
 };
 
 YANA.insertFavorites = function (section) {
-    var html = "<p>Favorites doesn't work yet. Sorry.</p>";
+    var html = "These are your favorites:";
+    html += JSON.stringify(amplify.store("YANA.favorites"),null,2);
     $(YANA.contentId(section)).html(html);
 };
 
