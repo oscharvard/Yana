@@ -6,6 +6,7 @@ $(document).ready(function () {
 	$("#homeHeader").html("<h1>" + YANA.title + "</h1>");
 	YANA.initializeSections("homeSection1List", YANA.sections[0]);
 	YANA.initializeSections("homeSection2List", YANA.sections[1]);
+	//YANA.clearFavorites();
     });
 
 
@@ -57,9 +58,18 @@ YANA.extractUrlParams = function(url){
 
 YANA.initializeSections = function (listId, sections) {
     // generate html, listeners, and id lookup map for each section.
+    var sectionTypeCount = {};
     for (var i = 0; i < sections.length; i++) {
         var s = sections[i];
-        s.id = s.id ? s.id : YANA.label2id(s.label);
+	sectionTypeCount[s.type]++;
+	if ( s.type == "favorites" ) {
+	    if ( sectionTypeCount[s.type] > 1 ) {
+		throw "Configuration error: There can only be one favorites section.";
+	    }
+	    s.id= s.type;
+	} else {
+	    s.id = s.id ? s.id : YANA.label2id(s.label);
+	}
 	if (s.levels > 1) {
 	    YANA.addSubSections(s);
 	}
@@ -98,11 +108,14 @@ YANA.buildPageHtml = function (section) {
     html += '<a href="#homePage" data-icon="home" data-iconpos="left" data-direction="reverse" class="ui-btn-right">Home</a>';
     html += '</header>';
     html += '<section data-role="content" class="' + section.type + 'Content" id="' + section.id + 'Content">';
-    if (section.type === 'rss') {
+    if (section.type === 'rss' || section.type === 'favorites') {
         var listId = section.id + "List";
         html += '<ul data-role="listview" data-inset="true" id="' + listId + '"><li></li></ul>';
     }
     html += '</section></section>';
+    //if ( section.type === 'favorites'){
+    //	alert("Hell yeah, favorites. html: " + html);
+    //}
     return html;
 };
 
@@ -124,6 +137,21 @@ YANA.addPageCreateHandler = function (section) {
     });
 };
 
+YANA.dump = function(object) {
+    // Json dump that doesn't get freaked out by circular references etc.
+    //http://www.thomasfrank.se/json_stringify_revisited.html
+    JSONstring.compactOutput=false;     
+    JSONstring.includeProtos=false;     
+    JSONstring.includeFunctions=false;     
+    JSONstring.detectCirculars=true;          
+    JSONstring.restoreCirculars=false;
+    return JSONstring.make(object);
+};
+
+YANA.getArticle = function(section,articleId){
+    // todo: hide all this article index crap. replace with ids. but how to handle multi-level section articles?
+};
+
 
 YANA.updateButton = function(id,label,url) {
     // deep magic to refresh the back to parent button. could probably be pruned.
@@ -135,13 +163,25 @@ YANA.updateButton = function(id,label,url) {
     $('#articleParentLink').attr("href", url);
 };
 
+
+YANA.listArticle = function(listId,article){
+    // todo: problem with favorites. It remembers the original article sectioning which may not be current, may be expired, etc.
+    // solution: let's transfer the article from its original section to the favorites section.
+    $(listId).append("<li><a href='"+article.listItemLink+"'>" + article.thumbnailHtml + "<h3>" + article.title + "</h3><p>" + article.preview + "</p></a></li>");
+};
+
 YANA.showArticle = function (sectionId, articleIndex, level) {
     // populate article page based on rss article info.
     var section = YANA.sectionById[sectionId];
+    if ( ! section ) {
+	alert("no section found for sectionId: " + sectionId);
+	section = YANA.sectionById["favorites"];
+    }
     if ( level && level > 1 ) {
 	section = section.subSections[level-2];
     }
     var article = section.articles[articleIndex];
+    YANA.currentArticle = article;
     //alert("Show article: " + $('#articleParentLink').html());
     YANA.updateButton( "#articleParentLink", section.label,"#" + sectionId + "Page");
     var moreHtml = '<hr /><span id="articleLinks">';
@@ -160,9 +200,7 @@ YANA.showArticle = function (sectionId, articleIndex, level) {
     YANA.clearButton(buttonId);
     moreHtml += YANA.addArticleLinkButton(buttonId,article.link,"Web");
     var titleHtml = "<h3>" + article.title + "</h3>";
-
-    moreHtml += YANA.addFavoritesButton();
-
+    moreHtml += YANA.addFavoritesButton(article);
     $('#articleContent').html(titleHtml + article.html + moreHtml);
     var absolutizeUrls = function (index, attr) {
 	if ( $.mobile.path.isAbsoluteUrl(attr) ) {
@@ -171,24 +209,105 @@ YANA.showArticle = function (sectionId, articleIndex, level) {
 	    return $.mobile.path.makeUrlAbsolute(attr,section.url);
 	}
     };
-
     $("#articleContent img").attr("src", absolutizeUrls);
     $("#articleContent a").attr("href", absolutizeUrls);
     $("#articleContent").trigger("create");
 };
 
-YANA.addFavoritesButton = function(){
+YANA.addFavoritesButton = function(article){
+    // or add remove favorites button if already a favorite.
     var buttonId = "addToFavoritesButton";
-    var label = "Favorite";
+    var label,onclick;
+    if (YANA.isFavorite(article)) {
+	//alert("YES! REMOVE!");
+	label = "Remove from Favorites";
+	onclick = "removeFromFavorites";
+    } else {
+	label = "Add to Favorites";
+	onclick = "addToFavorites";
+    }
     YANA.clearButton(buttonId);
-    return '<input onclick="YANA.addToFavorites()" type="button" id="' + buttonId + '" data-role="button" data-inline="true" rel="external" value="' + label + '"/> ';
+    return '<input onclick="YANA.' + onclick + '()" type="button" id="' + buttonId + '" data-role="button" data-inline="true" rel="external" value="' + label + '"/> ';
+};
+
+YANA.jsonifyArticle = function(a,section,articleIndex){
+    // remove context that might be fragile.
+    // articles are "de-issued" and made part of the favorites issue.
+    // why? Because "current" will change. sort of annoying but better simple and dumb for now.
+    // interesting that amplify seems not to be bothered by circular references...
+    var ja =  {};
+    $.each(['thumbnailHtml','title','preview', 'enclosures','link','html','guid','id','rssUrl'], function(index, value) { 
+	    ja[value] = a[value];
+	});
+    ja.listItemLink = YANA.buildListItemLink("#articlePage",ja,section,articleIndex);
+    return ja;
+};
+
+YANA.isFavorite = function(a){
+    var favorites =  amplify.store("YANA.favorites");
+    var isFavorite = false;
+    $.each(favorites, function(index, favorite) { 
+	    //alert("remove: does favorite guid = a.guid? " + favorite.id + " === " + a.id + "?" + ( favorite.id === a.id));
+	    if ( favorite.id === a.id ) {
+		isFavorite = true;
+		return;
+	    }
+	});
+    return isFavorite;
 };
 
 YANA.addToFavorites = function(){
-    //alert("Adding to favorites");
-    var favorites = [ "Rock and roll dude!" ];
+    var favorites =  amplify.store("YANA.favorites");
+    var a = YANA.jsonifyArticle(YANA.currentArticle,YANA.sectionById["favorites"],favorites.length);
+    //alert("Adding to favorites at index: " + favorites.length + ":" + a.title);
+    favorites.push(a);
     amplify.store("YANA.favorites",favorites);
-    //alert("Got this in favorites: " + JSON.stringify(amplify.store("YANA.favorites"),null,2));
+    //alert("Favorites now contain: " + amplify.store("YANA.favorites").length);
+    YANA.regenerateFavoritesList();
+};
+
+YANA.removeFromFavorites = function(){
+    var a = YANA.currentArticle;
+    //alert("Removing from favorites: " + a.title);
+    var oldFavorites = amplify.store("YANA.favorites");
+    var newFavorites = [];
+    $.each(oldFavorites, function(index, favorite) { 
+	    //alert("remove: does favorite guid = a.guid? " + favorite.id + " === " + a.id);
+	    if ( favorite.id !== a.id ) {
+		newFavorites.push(favorite);
+	    }
+	});
+    amplify.store("YANA.favorites",newFavorites);
+    YANA.regenerateFavoritesList();
+    // todo: redirect to favorites list.
+};
+
+YANA.clearFavorites = function(){
+    amplify.store("YANA.favorites",[]);
+    //alert("Your favorites have been cleared.");
+};
+
+YANA.regenerateFavoritesList = function(){
+    var section = YANA.sectionById["favorites"];
+    YANA.insertFavorites(section);
+
+};
+
+YANA.insertFavorites = function (section) {
+    var listId = YANA.listId(section);
+    $(listId).empty();
+    section.articles = amplify.store("YANA.favorites");
+    //alert("Building html this many favorites: " + section.articles.length);
+    $.each(section.articles,function(index,article) {
+	    YANA.listArticle(listId,article);
+	});
+    YANA.refreshListView(listId);
+};
+
+YANA.buildListItemLink = function(baseUrl,item,rootSection,itemIndex){
+    // this level/ item index stuff is crap. Fix.
+    // if long urls are what scare you, use js LZJB (might be nice for localstorage too?)
+    return baseUrl+"?s=" + rootSection.id + "&l=" + (item.nextLevel ? item.nextLevel : 0 ) + "&c=" + itemIndex;
 };
 
 YANA.addArticleLinkButton = function(buttonId,url,label) {
@@ -233,12 +352,6 @@ YANA.rssTruncate = function (text, length, ellipsis) {
     // The for() loop ends when it finds a space, and the length var
     // has been updated so it doesn't cut in the middle of a word.
     return text.substr(0, length) + ellipsis;
-};
-
-YANA.insertFavorites = function (section) {
-    var html = "These are your favorites:";
-    html += JSON.stringify(amplify.store("YANA.favorites"),null,2);
-    $(YANA.contentId(section)).html(html);
 };
 
 YANA.insertOpenSearch = function (section) {
@@ -341,7 +454,7 @@ YANA.insertRemoteRss = function (section, rssUrl, level, listId) {
     //alert("insertRemoteRss: " + section.id + " : " + rssUrl + " : level " + level + " listId: " + listId);
     var truncationLength = section.truncate;
     $.getJSON("http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20xml%20where%20url%3D%22" + encodeURIComponent(rssUrl) + "%22&format=json&_maxAge=300&callback=?", function (data) {
-        var count = 0;
+        var articleIndex = 0;
         //var html="";//"<ul data-role=\"listview\" data-inset=\"true\" id=\"rssList\"> ";
         var maxEntries = 100;
         //alert(listId+":"+$("#"+listId).html());
@@ -358,7 +471,7 @@ YANA.insertRemoteRss = function (section, rssUrl, level, listId) {
 	    }
             $.each(data.query.results.rss.channel.item || data.query.results.entry, function () {
                 //if set up to be infinite or the limit is not reached, keep grabbing items
-                if (maxEntries == 0 || maxEntries > count) {
+                if (maxEntries == 0 || maxEntries > articleIndex) {
                     var title = this.title;
                     var link = this.link;
                     var articleHtml = "";
@@ -394,49 +507,61 @@ YANA.insertRemoteRss = function (section, rssUrl, level, listId) {
                             enclosures.push(this.enclosure);
                         }
                     }
-                    var reducedDescription = YANA.rssTruncate(description, truncationLength);
-                    if (!reducedDescription) {
+                    var article = {};
+                    article.preview = YANA.rssTruncate(description, truncationLength);
+                    if (!article.preview) {
 			//alert("Problem getting description: '" + description + "'"  + JSON.stringify(this,null,2));
-                        reducedDescription = "";//Unable to get description for some reason (Reinhard will fix).";
+                        article.preview = "";//Unable to get description for some reason (Reinhard will fix).";
                     }
                     //var pubDate = this.pubDate;
                     //alert(JSON.stringify(this,null,2));
-                    
-                    //$("#"+listId).append("<li><a rel=\"external\" href='"+link+"'>" + thumbnailHtml +"<h3>"+title+"</h3><p>" + reducedDescription + "</p></a></li>");
-                    var article = {};
-                    article.id = this.guid;
+                    //$("#"+listId).append("<li><a rel=\"external\" href='"+link+"'>" + thumbnailHtml +"<h3>"+title+"</h3><p>" + article.preview + "</p></a></li>");
+                    article.guid = this.guid;
+		    article.rssUrl = rssUrl;
+		    if ( this.hasOwnProperty('guid') ) {
+			if ( article.guid.isPermalink ) {
+			    // this is what we like: permalink from the content provider to use as id.
+			    article.id = article.guid.content;
+			} else {
+			    if ( article.guid.hasOwnProperty('content') ) {
+				// 2nd best. At least they give us some kind of id.
+				article.id = rssUrl + ":guid:" + article.guid.content;
+			    } else {
+				// I think this is just an error?
+				alert("Strange rss article guid: " + JSON.stringify(article.guid));
+				article.id = rssUrl + ":index:" + articleIndex;
+			    }
+			}
+		    } else {
+			// no guid given at all.
+			article.id = rssUrl + ":index:" + articleIndex;
+		    }
+		    //alert("WHat the guid? " + JSON.stringify(this.guid,null,2));
                     article.title = title;
                     article.thumbnail = this.content ? (this.content.url ? this.content.url : "") : "";
                     article.link = link;
-                    article.preview = reducedDescription;
                     article.html = articleHtml;
                     article.enclosures = enclosures;
                     section.articles.push(article);
-                    
-                    var thumbnailHtml = article.thumbnail ? '<img class="thumbnail" src="' + article.thumbnail + '" />' : '';
-                    var onclick="";
-		    var href, nextLevel;
-                    //alert("section.levels: " + section.label + ": " + section.levels);
+                    article.thumbnailHtml = article.thumbnail ? '<img class="thumbnail" src="' + article.thumbnail + '" />' : '';
+		    article.listItemLink= null;
+		    article.nextLevel=null;
+		    var baseUrl = ""
                     if (section.levels &&  (level < section.levels) ) {
-                        //onclick = " onclick=\"alert('RSS of RSS not yet supported!')\" ";
-                        //onclick = " onclick=\"YANA.insertRemoteRss(YANA.sectionById['" + section.id + "'],'" + article.link + "'," +(level+1)+")\" ";         
-                        //alert("REINOS: " + onclick);
-                        // problem: we overwrite the archive html here.
-                        //href=YANA.pageId(section);
-			href = "#subSectionPage";
-			nextLevel = level+1;
+			baseUrl = "#subSectionPage";
+			article.nextLevel = level+1;
                     } else {
-                        href = "#articlePage";
-			nextLevel = level;
+                        baseUrl = "#articlePage";
+			article.nextLevel = level;
                     }
-                    href+="?s=" + section.id + "&l=" + (nextLevel) + "&rss=" + "&c=" + count;
-                    $(listId).append("<li><a href='"+href+"' " + onclick + ">" + thumbnailHtml + "<h3>" + title + "</h3><p>" + reducedDescription + "</p></a></li>");
-                    count++;
+                    article.listItemLink =  YANA.buildListItemLink(baseUrl,article,section,articleIndex);
+		    YANA.listArticle(listId,article);
+                    articleIndex++;
                 }
             });
         } catch (e) {
+	    throw(e);
             $(listId).append("<li>Error getting rss url: <a href=\"" + rssUrl + "\"> " + rssUrl + "</a><pre>" + e + "</pre></li>");
-            //alert("Error Message: " + e);
             return;
         }
         
