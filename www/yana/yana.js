@@ -9,6 +9,10 @@ $(document).ready(function () {
 	YANA.initFavorites();
     });
 
+$(document).bind("mobileinit", function(){
+	$.mobile.defaultPageTransition = 'slide';
+    });
+
 
 $(document).bind( "pagebeforechange", function( e, data ) {
 	// Dynamically generate pages based or url arguments. A surprising pain.
