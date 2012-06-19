@@ -226,10 +226,10 @@ YANA.showArticleAtIndex = function(sectionId,articleIndex, level){
 };
 
 YANA.showInChildBrowser = function showInChildBrowser(url){
-    //alert("showInChildBrowser: " + url);
-    // detect whether childbrowser is installed. 
+    // detect whether childbrowser plugin is installed. 
     if ( window.hasOwnProperty("plugins") && window.plugins.hasOwnProperty("childBrowser")) {
         // we are in native app mode with the childbrowser plugin installed.
+        // display url in 
         window.plugins.childBrowser.showWebPage(url);   
         return false;
     } else {
@@ -360,25 +360,33 @@ YANA.getFavorites = function(a){
     return favorites;
 };
 
+
 YANA.isFavorite = function(a){
-    var favorites =  YANA.getFavorites();
-    var isFavorite = false;
-    $.each(favorites, function(index, favorite) { 
-	    if ( favorite.id === a.id ) {
-		isFavorite = true;
-		return;
-	    }
-	});
-    return isFavorite;
+    return YANA.containsKeyValue(YANA.getFavorites(),'id',a.id);
+};
+
+
+YANA.containsKeyValue = function(array,key,value){
+    var i;
+    for (i=0;i<array.length;i++) {
+        alert(i+'.' + key + ': '  + array[i][key]);
+        if (array[i].key === value ) {            
+            return true;
+        }
+    }
+    return false;
 };
 
 YANA.addToFavorites = function(){
     var favorites =  YANA.getFavorites();
     var a = YANA.jsonifyArticle(YANA.currentArticle,YANA.sectionById["favorites"],favorites.length);
-    favorites.push(a);
-    amplify.store("YANA.favorites",favorites);
-    YANA.regenerateFavoritesList();
-    YANA.refreshCurrentArticle();
+    if ( ! containsKeyValue(favorites,"id",a.id){
+        // don't double add favorites.
+        favorites.push(a);
+        amplify.store("YANA.favorites",favorites);
+        YANA.regenerateFavoritesList();
+        YANA.refreshCurrentArticle();
+    }
 };
 
 YANA.removeFromFavorites = function(){
