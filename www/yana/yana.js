@@ -225,6 +225,21 @@ YANA.showArticleAtIndex = function(sectionId,articleIndex, level){
     YANA.showArticle(article,section,level); 
 };
 
+YANA.showInChildBrowser = function showInChildBrowser(url){
+    //alert("showInChildBrowser: " + url);
+    // detect whether childbrowser is installed. 
+    if ( window.hasOwnProperty("plugins") && window.plugins.hasOwnProperty("childBrowser")) {
+        // we are in native app mode with the childbrowser plugin installed.
+        window.plugins.childBrowser.showWebPage(url);   
+        return false;
+    } else {
+        // we web app mode OR in native app mode with NO childbrowser plugin installed.
+        // just return true and allow the link to function as normal.
+        //document.location=url;
+        return true;
+    }    
+};
+
 YANA.showArticle = function (article,section,level){
     if ( article === null ) {
 	alert("No article!");
@@ -411,8 +426,8 @@ YANA.buildListItemLink = function(baseUrl,item,rootSection,itemIndex){
 };
 
 YANA.addArticleLinkButton = function(buttonId,url,label) {
-    YANA.clearButton(buttonId);
-    return '<a id="' + buttonId + '" data-role="button" data-inline="true" rel="external" href="' + url + '">' + label + '</a> ';
+    YANA.clearButton(buttonId);    
+    return '<a id="' + buttonId + '" data-role="button" data-inline="true" onclick="return YANA.showInChildBrowser(\'' + url + '\');" rel="external" href="' + url + '">' + label + '</a> ';
 };
 
 YANA.clearButton = function(buttonId){
