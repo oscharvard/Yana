@@ -362,6 +362,7 @@ YANA.getFavorites = function(a){
 
 
 YANA.isFavorite = function(a){
+    // REINOS: this is broken?
     return YANA.containsKeyValue(YANA.getFavorites(),'id',a.id);
 };
 
@@ -369,8 +370,8 @@ YANA.isFavorite = function(a){
 YANA.containsKeyValue = function(array,key,value){
     var i;
     for (i=0;i<array.length;i++) {
-        alert(i+'.' + key + ': '  + array[i][key]);
-        if (array[i].key === value ) {            
+        //alert(i+'.' + key + ': '  + array[i][key]);
+        if (array[i][key] === value ) {            
             return true;
         }
     }
@@ -380,7 +381,7 @@ YANA.containsKeyValue = function(array,key,value){
 YANA.addToFavorites = function(){
     var favorites =  YANA.getFavorites();
     var a = YANA.jsonifyArticle(YANA.currentArticle,YANA.sectionById["favorites"],favorites.length);
-    if ( ! containsKeyValue(favorites,"id",a.id){
+    if ( ! YANA.containsKeyValue(favorites,"id",a.id)){
         // don't double add favorites.
         favorites.push(a);
         amplify.store("YANA.favorites",favorites);
@@ -398,6 +399,10 @@ YANA.removeFromFavorites = function(){
 		newFavorites.push(favorite);
 	    }
 	});
+        
+        //YANA.oldFavorties = oldFavorites;
+        //YANA.newFavorits
+        
     amplify.store("YANA.favorites",newFavorites);
     YANA.regenerateFavoritesList();
     if ( YANA.currentSection.type === "favorites" ) {
